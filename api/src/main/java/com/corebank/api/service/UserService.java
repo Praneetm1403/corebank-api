@@ -15,4 +15,11 @@ public class UserService {
         // In a real app, you should encrypt the password before saving
         return userRepository.save(user);
     }
+    public void deleteUser(Long id) {
+        if(userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("User with id " + id + " does not exist");
+        }
+    }
 }

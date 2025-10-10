@@ -16,13 +16,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // ✅ Register user
     public User registerUser(User user) {
-        // In a real app, you should encrypt the password before saving
         return userRepository.save(user);
     }
 
-    // ✅ Delete user
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with id " + id + " does not exist");
@@ -30,31 +27,23 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    // ✅ Get user by ID
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
 
-    // ✅ Get all users
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    // ✅ Update user
     public User updateUser(Long id, User updatedUser) {
-        return userRepository.findById(id)
-                .map(existingUser -> {
-                    if (updatedUser.getUsername() != null) {
-                        existingUser.setUsername(updatedUser.getUsername());
-                    }
-                    if (updatedUser.getEmail() != null) {
-                        existingUser.setEmail(updatedUser.getEmail());
-                    }
-                    if (updatedUser.getPassword() != null) {
-                        existingUser.setPassword(updatedUser.getPassword());
-                    }
-                    return userRepository.save(existingUser);
-                })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with ID: " + id));
+        return userRepository.findById(id).map(user -> {
+            user.setUsername(updatedUser.getUsername());
+            user.setEmail(updatedUser.getEmail());
+            user.setPassword(updatedUser.getPassword());
+            if (updatedUser.getRole() != null) {
+                user.setRole(updatedUser.getRole());
+            }
+            return userRepository.save(user);
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 }

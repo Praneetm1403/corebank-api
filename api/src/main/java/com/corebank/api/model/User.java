@@ -1,12 +1,10 @@
 package com.corebank.api.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import java.util.List;
+import jakarta.validation.constraints.*;
 
 @Entity
-@Table(name = "users")  // avoid reserved keyword conflicts
+@Table(name = "users")
 public class User {
 
     @Id
@@ -26,9 +24,11 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Account> accounts;
-// Paneer Mahendrakar
+    // ✅ Make role optional for migration, and assign default value in code
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private Role role = Role.USER; // default value
+
     // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -42,6 +42,6 @@ public class User {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-//    public List<Account> getAccounts() { return accounts; }
-//    public void setAccounts(List<Account> accounts) { this.accounts = accounts; }
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
 }

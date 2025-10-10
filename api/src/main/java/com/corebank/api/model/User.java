@@ -1,12 +1,9 @@
-
-
 package com.corebank.api.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "users")
 public class User {
@@ -28,12 +25,10 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    // ✅ Make role optional for migration, and assign default value in code
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
-    private Role role = Role.USER; // default value
+    @Column(nullable = false)
+    private String role = "USER"; // Default role
 
-    // Getters and setters
+    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -46,6 +41,6 @@ public class User {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public Role getRole() { return role; }
-    public void setRole(Role role) { this.role = role; }
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 }

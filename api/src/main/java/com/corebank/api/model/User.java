@@ -27,8 +27,9 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String role = "USER"; // Default role
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private Role role = Role.USER; // default value
 
     // Getters & Setters
     public Long getId() { return id; }
@@ -43,6 +44,6 @@ public class User {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
 }

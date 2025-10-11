@@ -17,7 +17,7 @@ public class Account {
     private Long id;
 
     // FK to users.id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnoreProperties({"password", "email", "role"})
     private User user;
